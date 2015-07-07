@@ -62,11 +62,11 @@ angular.module("cronselection.html", []).run(["$templateCache", function($templa
     "                <label>\n" +
     "                    <input type=\"radio\" value=\"2\" ng-model=\"myFrequency.endType\" />After\n" +
     "                </label>\n" +
-    "                <input type=\"text\" ng-model=\"myFrequency.endCount\" />\n" +
+    "                <input type=\"text\" ng-model=\"myFrequency.endCount\" ng-disable=\"myFrequency.endType != '2'\" />\n" +
     "            </div>\n" +
     "            <div>\n" +
     "                <label>\n" +
-    "                    <input type=\"radio\" value=\"3\" ng-model=\"myFrequency.endType\" />\n" +
+    "                    <input type=\"radio\" value=\"3\" ng-model=\"myFrequency.endType\" ng-disable=\"myFrequency.endType != '3'\" />\n" +
     "                </label>\n" +
     "                <input type=\"date\" ng-model=\"myFrequency.endDate\" />\n" +
     "            </div>\n" +
