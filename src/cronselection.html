@@ -1,11 +1,31 @@
 <div class="cron-wrap">
-<span>Every: </span>
-	<select class="cron-select" ng-model="myFrequency.base" ng-options="item.value as item.label for item in frequency"></select>
+    <div>
+        <span class="left-col">Every: </span>
+        <select class="cron-select" ng-model="myFrequency.base" ng-options="item.value as item.label for item in frequency"></select>
+    </div>
+    <div>
+        <span class="left-col">Interval: </span>
+        <select class="cron-select" ng-model="myFrequency.interval" ng-options="interval for interval in intervalValues"></select>
+        <span ng-switch="myFrequency.base">
+            <span ng-switch-when="3"><span ng-if="myFrequency.interval == 1">day</span><span ng-if="myFrequency.interval > 1">days</span></span>
+            <span ng-switch-when="4"><span ng-if="myFrequency.interval == 1">week</span><span ng-if="myFrequency.interval > 1">weeks</span></span>
+            <span ng-switch-when="5"><span ng-if="myFrequency.interval == 1">month</span><span ng-if="myFrequency.interval > 1">months</span></span>
+            <span ng-switch-when="6"><span ng-if="myFrequency.interval == 1">year</span><span ng-if="myFrequency.interval > 1">years</span></span>
+        </span>
+    </div>
+	<div>
+		<span ng-show="myFrequency.base == 4" class="left-col">On: </span>
 
-	<div class="select-options">
-		<span ng-show="myFrequency.base == 4">on </span>
-		<select ng-show="myFrequency.base == 4" class="cron-select day-value" ng-model="myFrequency.dayValue" ng-options="(value | dayName) for value in dayValue"></select>
-		<span ng-show="myFrequency.base >= 5">on the </span>
+        <span ng-show="myFrequency.base == 4">
+            <label ng-repeat="value in dayValue">
+                <input type="checkbox" value="value" name="weekdays[]" ng-checked="myFrequency.dayValue.indexOf(value) > -1" ng-click="toggleWeekday(value)">
+                {{value | shortDayName}}
+            </label>
+        </span>
+
+
+        <!--
+        <span ng-show="myFrequency.base >= 5">on the </span>
 		<select ng-show="myFrequency.base >= 5" class="cron-select day-of-month-value" ng-model="myFrequency.dayOfMonthValue" ng-options="(value | numeral) for value in dayOfMonthValue"></select>
 		<span ng-show="myFrequency.base == 6">of </span>
 		<select ng-show="myFrequency.base == 6" class="cron-select month-value" ng-model="myFrequency.monthValue" ng-options="(value | monthName) for value in monthValue"></select>
@@ -14,5 +34,32 @@
 		<span ng-show="myFrequency.base >= 3"> : </span>
 		<select ng-show="myFrequency.base >= 2" class="cron-select minute-value" ng-model="myFrequency.minuteValue" ng-options="value for value in minuteValue"></select>
 		<span ng-show="myFrequency.base == 2"> past the hour</span>
+		-->
 	</div>
+    <div>
+        <span class="left-col">Begin at: </span>
+        <input type="date" ng-model="myFrequency.beginDate">
+    </div>
+    <div>
+        <span class="left-col top">End at: </span>
+        <div class="inline-block">
+            <div>
+                <label>
+                    <input type="radio" value="1" ng-model="myFrequency.endType" />Never
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="radio" value="2" ng-model="myFrequency.endType" />After
+                </label>
+                <input type="text" ng-model="myFrequency.endCount" />
+            </div>
+            <div>
+                <label>
+                    <input type="radio" value="3" ng-model="myFrequency.endType" />
+                </label>
+                <input type="date" ng-model="myFrequency.endDate" />
+            </div>
+        </div>
+    </div>
 </div>
