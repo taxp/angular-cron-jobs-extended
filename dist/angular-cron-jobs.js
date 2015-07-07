@@ -62,13 +62,13 @@ angular.module("cronselection.html", []).run(["$templateCache", function($templa
     "                <label>\n" +
     "                    <input type=\"radio\" value=\"2\" ng-model=\"myFrequency.endType\" />After\n" +
     "                </label>\n" +
-    "                <input type=\"text\" ng-model=\"myFrequency.endCount\" ng-disable=\"myFrequency.endType != '2'\" />\n" +
+    "                <input type=\"text\" ng-model=\"myFrequency.endCount\" ng-disabled=\"myFrequency.endType != '2'\" />\n" +
     "            </div>\n" +
     "            <div>\n" +
     "                <label>\n" +
-    "                    <input type=\"radio\" value=\"3\" ng-model=\"myFrequency.endType\" ng-disable=\"myFrequency.endType != '3'\" />\n" +
+    "                    <input type=\"radio\" value=\"3\" ng-model=\"myFrequency.endType\" />\n" +
     "                </label>\n" +
-    "                <input type=\"date\" ng-model=\"myFrequency.endDate\" />\n" +
+    "                <input type=\"date\" ng-model=\"myFrequency.endDate\" ng-disable=\"myFrequency.endType != '3'\" />\n" +
     "            </div>\n" +
     "        </div>\n" +
     "    </div>\n" +
@@ -90,7 +90,7 @@ angular.module('angular-cron-jobs').directive('cronSelection', ['cronService', f
                 init   : '=?'
             },
             templateUrl: function(element, attributes) {
-                return attributes.template || './structure/cron-job/cronselection.html';
+                return attributes.template || 'cronselection.html';
             },
             link: function($scope) {
 

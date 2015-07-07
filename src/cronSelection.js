@@ -9,7 +9,7 @@ angular.module('angular-cron-jobs').directive('cronSelection', ['cronService', f
                 init   : '=?'
             },
             templateUrl: function(element, attributes) {
-                return attributes.template || './structure/cron-job/cronselection.html';
+                return attributes.template || 'cronselection.html';
             },
             link: function($scope) {
 
