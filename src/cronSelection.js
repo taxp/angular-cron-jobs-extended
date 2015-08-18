@@ -6,7 +6,8 @@ angular.module('angular-cron-jobs').directive('cronSelection', ['cronService', f
             scope: {
                 config : '=',
                 output : '=?',
-                init   : '=?'
+                init   : '=?',
+                extended: '='
             },
             templateUrl: function(element, attributes) {
                 return attributes.template || 'cronselection.html';
@@ -47,7 +48,7 @@ angular.module('angular-cron-jobs').directive('cronSelection', ['cronService', f
                     //console.log('init value found: ', $scope.init);
                     originalInit = angular.copy($scope.init);
 
-                    $scope.myFrequency = cronService.fromCron($scope.init.cronString);
+                    $scope.myFrequency = cronService.fromCron($scope.init.cronString, !!$scope.extended);
                     $scope.myFrequency.beginDate = $scope.init.beginDate;
                     $scope.myFrequency.endType = $scope.init.endType;
                     $scope.myFrequency.endCount = $scope.init.endCount;
@@ -59,7 +60,7 @@ angular.module('angular-cron-jobs').directive('cronSelection', ['cronService', f
                     if(angular.isDefined(newValue) && newValue && (newValue !== originalInit)){
                         initChanged = true;
 
-                        $scope.myFrequency = cronService.fromCron($scope.init.cronString);
+                        $scope.myFrequency = cronService.fromCron($scope.init.cronString, !!$scope.extended);
                         $scope.myFrequency.beginDate = $scope.init.beginDate;
                         $scope.myFrequency.endType = $scope.init.endType;
                         $scope.myFrequency.endCount = $scope.init.endCount;
@@ -92,6 +93,8 @@ angular.module('angular-cron-jobs').directive('cronSelection', ['cronService', f
                 $scope.dayValue = [0, 1, 2, 3, 4, 5, 6];
                 $scope.monthValue = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
                 $scope.intervalValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30];
+                $scope.numberOfWeek = [1, 2, 3, 4, 5];
+
 
                 $scope.$watch('myFrequency', function(n, o){
                     //console.log('myFrequency changed: ', n, initChanged);
@@ -112,18 +115,25 @@ angular.module('angular-cron-jobs').directive('cronSelection', ['cronService', f
                             n.dayValue = [$scope.dayValue[0]];
                         }
 
-                        if(n && n.base && n.base >= 5) {
-                            n.dayOfMonthValue = $scope.dayOfMonthValue[0];
+                        if(n && n.base && n.base === 5) {
+                            if(!$scope.extended) {
+                                n.dayOfMonthValue = $scope.dayOfMonthValue[0];
+                            } else {
+                                n.monthIntervalType = 1;
+                                n.numberOfWeek = $scope.numberOfWeek[0];
+                                n.dayOfWeek = $scope.dayValue[0];
+                            }
                         }
 
                         if(n && n.base && n.base === 6) {
+                            n.dayOfMonthValue = $scope.dayOfMonthValue[0];
                             n.monthValue = $scope.monthValue[0];
                         }
                     } else if(n && n.base && o && o.base){
                         initChanged = false;
                     }
                     //$scope.output = cronService.setCron(n);
-                    var cronString = cronService.setCron(n);
+                    var cronString = cronService.setCron(n, !!$scope.extended);
                     $scope.output = {
                         cronString: cronString,
                         beginDate: n.beginDate,
