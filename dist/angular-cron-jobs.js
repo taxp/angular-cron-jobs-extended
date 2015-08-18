@@ -1,7 +1,7 @@
-/**
+/** 
  * UI Component For Creating Cron Job Syntax To Send To Server
- * @version v1.3.3 - 2015-08-18 * @link https://github.com/jacobscarter/angular-cron-jobs
- * @author Jacob Carter <jacob@ieksolutions.com>
+ * @version v1.3.3 - 2015-07-07 * @link https://github.com/jacobscarter/angular-cron-jobs
+ * @author taxp
  * @license MIT License, http://www.opensource.org/licenses/MIT
  */
 angular.module('templates-angularcronjobs', ['cronselection.html']);
@@ -189,7 +189,6 @@ angular.module('angular-cron-jobs').directive('cronSelection', ['cronService', f
                 $scope.monthValue = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
                 $scope.intervalValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30];
                 $scope.numberOfWeek = [1, 2, 3, 4, 5];
-
 
                 $scope.$watch('myFrequency', function(n, o){
                     //console.log('myFrequency changed: ', n, initChanged);
@@ -386,6 +385,7 @@ angular.module('angular-cron-jobs').factory('cronService', function() {
         //  console.log('set cron fired!');
         var cron = value.replace(/\s+/g, ' ').split(' ');
         var frequency = {base: '1'}; // default: every minute
+
 
 
         if(cron[0] === '*' && cron[1] === '*' && cron[2] === '*' && cron[3] === '*'  && cron[4] === '*') {
