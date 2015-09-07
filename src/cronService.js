@@ -4,7 +4,6 @@ angular.module('angular-cron-jobs').factory('cronService', function() {
     var service = {};
 
     service.setCron = function(n, extended) {
-        //  console.log('set cron called: ', n);
         var cron = ['*', '*', '*', '*', '*', '*'];
 
         if(n && n.base && n.base >= 2) {
@@ -40,6 +39,7 @@ angular.module('angular-cron-jobs').factory('cronService', function() {
             }
             if(n.interval) {
                 cron[3] = '*/' + n.interval;
+                cron[2] = '*';
             }
         }
 
@@ -48,12 +48,10 @@ angular.module('angular-cron-jobs').factory('cronService', function() {
             cron[3] = typeof n.monthValue !== undefined ? n.monthValue : '1';
             cron[5] = '*/' + n.interval;
         }
-        //console.log('cron after setCron ', cron.join(' '));
         return cron.join(' ');
     };
 
     service.fromCron = function(value, extended) {
-        //  console.log('set cron fired!');
         var cron = value.replace(/\s+/g, ' ').split(' ');
         var frequency = {base: '1'}; // default: every minute
 
@@ -121,7 +119,6 @@ angular.module('angular-cron-jobs').factory('cronService', function() {
 
         //frequency.base += ''; // 'cast' to string in order to set proper value on "every" modal
 
-        // console.log('freq ', frequency);
         return frequency;
     };
 
