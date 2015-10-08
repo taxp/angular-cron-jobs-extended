@@ -112,7 +112,7 @@ angular.module('angular-cron-jobs').directive('cronSelection', ['cronService', f
                         }
 
                         if(n && n.base && n.base === 4) {
-                            n.dayValue = [$scope.dayValue[0]];
+                            n.dayValue = [];
                         }
 
                         if(n && n.base && n.base === 5) {
