@@ -21,6 +21,8 @@ angular.module('angular-cron-jobs').factory('cronService', function() {
         if(n && n.base && n.base === 4) {
             if(n.dayValue.length && n.interval) {
                 cron[6] = n.dayValue.join(',') + '/' + n.interval;
+            } else {
+                cron[6] = '/' + n.interval;
             }
         }
 

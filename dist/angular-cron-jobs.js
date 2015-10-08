@@ -1,6 +1,6 @@
 /**
  * UI Component For Creating Cron Job Syntax To Send To Server
- * @version v1.3.3 - 2015-09-07 * @link https://github.com/jacobscarter/angular-cron-jobs
+ * @version v1.3.3 - 2015-10-08 * @link https://github.com/jacobscarter/angular-cron-jobs
  * @author Jacob Carter <jacob@ieksolutions.com>
  * @license MIT License, http://www.opensource.org/licenses/MIT
  */
@@ -152,7 +152,7 @@ angular.module('angular-cron-jobs').directive('cronSelection', ['cronService', f
 
                 $scope.$watch('init', function(newValue){
                     //console.log('watch on init fired!', newValue, originalInit);
-                    if(angular.isDefined(newValue) && newValue && (newValue !== originalInit)){
+                    if(angular.isDefined(newValue) && newValue && !angular.equals(newValue, originalInit)){
                         initChanged = true;
 
                         $scope.myFrequency = cronService.fromCron($scope.init.cronString, !!$scope.extended);
@@ -326,6 +326,24 @@ angular.module('angular-cron-jobs').directive('cronSelection', ['cronService', f
             return null;
         }
     };
+}).filter('shortDayNameUS', function() {
+    return function(input) {
+        var days = {
+            0: 'Sun',
+            1: 'Mon',
+            2: 'Tue',
+            3: 'Wed',
+            4: 'Thu',
+            5: 'Fri',
+            6: 'Sat'
+        };
+
+        if (input !== null && angular.isDefined(days[input])) {
+            return days[input];
+        } else {
+            return null;
+        }
+    };
 });
 
 'use strict';
@@ -351,6 +369,8 @@ angular.module('angular-cron-jobs').factory('cronService', function() {
         if(n && n.base && n.base === 4) {
             if(n.dayValue.length && n.interval) {
                 cron[6] = n.dayValue.join(',') + '/' + n.interval;
+            } else {
+                cron[6] = '/' + n.interval;
             }
         }
 

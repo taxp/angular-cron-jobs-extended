@@ -57,7 +57,7 @@ angular.module('angular-cron-jobs').directive('cronSelection', ['cronService', f
 
                 $scope.$watch('init', function(newValue){
                     //console.log('watch on init fired!', newValue, originalInit);
-                    if(angular.isDefined(newValue) && newValue && (newValue !== originalInit)){
+                    if(angular.isDefined(newValue) && newValue && !angular.equals(newValue, originalInit)){
                         initChanged = true;
 
                         $scope.myFrequency = cronService.fromCron($scope.init.cronString, !!$scope.extended);
@@ -223,6 +223,24 @@ angular.module('angular-cron-jobs').directive('cronSelection', ['cronService', f
             4: 'Th',
             5: 'Fr',
             6: 'Sa'
+        };
+
+        if (input !== null && angular.isDefined(days[input])) {
+            return days[input];
+        } else {
+            return null;
+        }
+    };
+}).filter('shortDayNameUS', function() {
+    return function(input) {
+        var days = {
+            0: 'Sun',
+            1: 'Mon',
+            2: 'Tue',
+            3: 'Wed',
+            4: 'Thu',
+            5: 'Fri',
+            6: 'Sat'
         };
 
         if (input !== null && angular.isDefined(days[input])) {
