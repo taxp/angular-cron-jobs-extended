@@ -7,11 +7,11 @@ angular.module('angular-cron-jobs').factory('cronService', function() {
         var cron = ['*', '*', '*', '*', '*', '*'];
 
         if(n && n.base && n.base >= 2) {
-            cron[0] = typeof n.minuteValue !== undefined ? n.minuteValue : '*';
+            cron[0] = (typeof n.minuteValue !== 'undefined') ? n.minuteValue : '*';
         }
 
         if(n && n.base && n.base >= 3) {
-            cron[1] = typeof n.hourValue !== undefined ? n.hourValue  : '*';
+            cron[1] = (typeof n.hourValue !== 'undefined') ? n.hourValue  : '*';
 
             if(n.base === 3 && n.interval) {
                 cron[2] = '*/' + n.interval;
@@ -28,26 +28,26 @@ angular.module('angular-cron-jobs').factory('cronService', function() {
 
         if(n && n.base && n.base === 5) {
             if(!extended) {
-                cron[2] = typeof n.dayOfMonthValue !== undefined ? n.dayOfMonthValue : '1';
+                cron[2] = (typeof n.dayOfMonthValue !== 'undefined') ? n.dayOfMonthValue : '1';
             } else {
-                if(n.monthIntervalType == '1') {
-                    cron[2] = typeof n.dayOfMonthValue !== undefined ? n.dayOfMonthValue : '1';
-                } else if(n.monthIntervalType == '2') {
-                    var dayOfWeek = typeof n.dayOfWeek !== undefined ? n.dayOfWeek : '1';
-                    var numberOfWeek = typeof n.numberOfWeek !== undefined ? n.numberOfWeek : '1';
+                if(parseInt(n.monthIntervalType) == 1) {
+                    cron[2] = (typeof n.dayOfMonthValue !== 'undefined') ? n.dayOfMonthValue : '1';
+                } else if(parseInt(n.monthIntervalType) == 2) {
+                    var dayOfWeek = (typeof n.dayOfWeek !== 'undefined') ? n.dayOfWeek : '1';
+                    var numberOfWeek = (typeof n.numberOfWeek !== 'undefined') ? n.numberOfWeek : '1';
 
                     cron[4] = dayOfWeek + '#' + numberOfWeek;
+                    cron[2] = '*';
                 }
             }
             if(n.interval) {
                 cron[3] = '*/' + n.interval;
-                cron[2] = '*';
             }
         }
 
         if(n && n.base && n.base === 6) {
-            cron[2] = typeof n.dayOfMonthValue !== undefined ? n.dayOfMonthValue : '1';
-            cron[3] = typeof n.monthValue !== undefined ? n.monthValue : '1';
+            cron[2] = (typeof n.dayOfMonthValue !== 'undefined') ? n.dayOfMonthValue : '1';
+            cron[3] = (typeof n.monthValue !== 'undefined') ? n.monthValue : '1';
             cron[5] = '*/' + n.interval;
         }
         return cron.join(' ');
